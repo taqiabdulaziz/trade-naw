@@ -1,11 +1,16 @@
 
-var app = require('express')();
+const express = require('express')
+var app = express();
 var server = require('http').Server(app);
+const Router = require('./routes')
 var io = require('socket.io')(server);
 
 // app.use(express.urlencoded({ extended: true }))
 // app.use(express.json())
 app.set('view engine', 'ejs');
+app.use(express.urlencoded({extended:false}))
+
+app.use("/", Router)
 
 server.listen(3000)
 

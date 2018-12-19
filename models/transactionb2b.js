@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     subTotal: DataTypes.INTEGER
   }, {});
   TransactionB2B.associate = function(models) {
-    TransactionB2B.belongsTo(models.CurrencyId)
+    TransactionB2B.belongsTo(models.Currency)
     TransactionB2B.belongsTo(models.User)
     // associations can be defined here
   };
