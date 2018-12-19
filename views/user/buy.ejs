@@ -20,19 +20,26 @@
                     <th scope="col">Buy Price</th>
                     <th scope="col">Selling Price</th>
                     <th scope="col">Date</th>
-                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <%data.forEach((element) => { %>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td><%=element.name%></td>
-                        <td><%=element.buyPrice%></td>
-                        <td><%=element.sellPrice%></td>
-                        <td><%=new Date(element.updatedAt).toDateString()%></td>
-                        <td></td>
-                    </tr>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>
+                        <%=element.name%>
+                    </td>
+                    <td>
+                        <%=element.buyPrice%>
+                    </td>
+                    <td>
+                        <%=element.sellPrice%>
+                    </td>
+                    <td>
+                        <%=new Date(element.updatedAt).toDateString()%>
+                    </td>
+
+                </tr>
                 <%})%>
             </tbody>
         </table>

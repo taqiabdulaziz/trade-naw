@@ -7,11 +7,15 @@ Routes.get("/", (req, res) => {
 })
 
 Routes.get("/buy", (req, res) => {
-    CurrencyHistory.findAll().then((result) => {
-        res.send(result)
-        // res.render(`./user/buy.ejs`, {
-        //     data: result
-        // })
+    CurrencyHistory.findAll({
+        where: {
+            name: `HKD`
+        }
+    }).then((result) => {
+        // res.send(result)
+        res.render(`./user/buy.ejs`, {
+            data: result
+        })
     }).catch((err) => {
         res.send(err)
     });

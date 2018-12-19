@@ -10,11 +10,14 @@ var io = require('socket.io')(server);
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }))
-
+app.use(session({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+    cookie: { secure: true }
+}))
 app.use("/", Router)
-
 server.listen(3000)
-
 
 app.get('/chatbox', function (req, res) {
     res.render(`chatbox.ejs`)
@@ -27,7 +30,6 @@ io.on('connection', function (socket) {
     socket.on('chat message', function (msg) {
         io.emit('chat message', `Taqi: ${msg}`);
         console.log(msg);
-
     });
 });
 
@@ -37,32 +39,64 @@ setInterval(() => {
     curr.forEach(element => {
         rp(`https://www.alphavantage.co/query?function=FX_INTRADAY&from_symbol=${element}&to_symbol=IDR&interval=5min&apikey=NYQXR70QLDSCRYEI`)
             .then((result) => {
-                setTimeout(() => {
-                    let data = JSON.parse(result)
-                    let date = new Date(Object.keys(data[`Time Series FX (5min)`])[0])
-                    let valueSell = Number(data[`Time Series FX (5min)`][Object.keys(data[`Time Series FX (5min)`])[0]]["4. close"])
-                    let valueBuy = valueSell + valueSell * 2 / 100
-                    console.log(date.setHours(20))
-                    console.log(`HARGA ${element}: ${valueSell}`);
-                    console.log(`HARGA ${element}: ${valueBuy}`);
-                    Model.CurrencyHistories.create({
-                        name: element,
-                        sellPrice: valueSell,
-                        buyPrice: valueBuy,
-                        createdAt: new Date(),
-                        updatedAt: date
-                    }).then((result) => {
+                console.log(result);
+                let data = JSON.parse(result)
+                let date = new Date(Object.keys(data[`Time Series FX (5min)`])[0])
+                let valueSell = Number(data[`Time Series FX (5min)`][Object.keys(data[`Time Series FX (5min)`])[0]]["4. close"])
+                let valueBuy = valueSell + valueSell * 2 / 100
+                console.log(date.setHours(20))
+                console.log(`HARGA ${element}: ${valueSell}`);
+                console.log(`HARGA ${element}: ${valueBuy}`);
+                Model.CurrencyHistory.create({
+                    name: element,
+                    sellPrice: valueSell,
+                    buyPrice: valueBuy,
+                    createdAt: new Date(),
+                    updatedAt: date
+                }).then((result) => {
 
-                    }).catch((err) => {
+                }).catch((err) => {
 
-                    });
+                });
+                Model.Currency.findOne({
+                    where: {
+                        name: element
+                    }
+                }).then((result) => {
+                    if (!result) {
+                        Model.Currency.create({
+                            name: element,
+                            buyPrice: valueBuy,
+                            sellPrice: valueSell
+                        }).then((result) => {
 
-                }, 2000);
+                        }).catch((err) => {
+
+                        });
+                    } else {
+                        Model.Currency.update({
+                            buyPrice: valueBuy,
+                            sellPrice: valueSell
+                        }, {
+                                where: {
+                                name: element
+                            }
+                        }).then((result) => {
+                            
+                        }).catch((err) => {
+                            
+                        });
+                    }
+                    console.log(`ini resultttt`, result);
+
+                }).catch((err) => {
+
+                });
             }).catch((err) => {
                 console.log(err);
             });
     });
-}, 100000000);
+}, 60000);
 
 
 
