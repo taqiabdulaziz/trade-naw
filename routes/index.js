@@ -9,6 +9,8 @@ Routes.use('/login', loginRoutes)
 
 
 
+
+
 Routes.get('/', (req, res) => {
     res.render('index.ejs')
 })
