@@ -1,0 +1,2 @@
+6c71f403f3f1484e4959fa9466049a72
+https://api.exchangeratesapi.io/latest?base=AUD
