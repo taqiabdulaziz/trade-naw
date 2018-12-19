@@ -10,7 +10,7 @@ Routes.get('/',checkLogin, (req, res) =>{
         id:req.session.user.id
     }})
     .then((user) => {
-        res.send(user)
+        res.redirect("profile.ejs", {user})
      
     })
     .catch((err) => {
@@ -41,5 +41,7 @@ Routes.get("/delete", (req, res) => {
         res.redirect(`/profile?error=${err}`)
     })
 })
+
+
 
 module.exports = Routes
