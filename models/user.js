@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.TransactionB2B)
     // associations can be defined here
   };
-  user.prototype.getFullName = function () {
+  User.prototype.getFullName = function () {
     return this.firstName + " " + this.lastName
   }
 
