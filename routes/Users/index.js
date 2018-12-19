@@ -6,6 +6,10 @@ Routes.get("/", (req, res) => {
     res.send("ini user")
 })
 
+Routes.get('/profile', (req, res) =>{
+    res.send("ini profile gue")
+})
+
 
 
 
