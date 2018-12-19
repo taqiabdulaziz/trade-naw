@@ -19,7 +19,7 @@ Routes.post('/', (req, res) => {
     }
     User.create(insert)
         .then((data) => {
-            res.redirect("/login?info?success register data")
+            res.redirect("/login?info=success register data")
         })
         .catch((err) => {
             res.redirect(`/register?error=${err}`)
