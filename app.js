@@ -12,6 +12,7 @@ var io = require('socket.io')(server);
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }))
 
+
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
