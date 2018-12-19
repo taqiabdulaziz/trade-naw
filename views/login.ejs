@@ -12,18 +12,7 @@
     <br>
     <br>
     <br>
-    <% if (info) { %>
-        <div class="alert alert-primary" role="alert">
-                <%= info %>
-              </div>
-    <%} %>
-    <% if (err) { %>
-      <%  err.forEach(error =>{ %>
-            <div class="alert alert-danger" role="alert">
-                    <%= error.message %>
-                  </div>
-      <%  }) %>
-    <% } %>
+    <%- include('./partials/notification.ejs') %>
     <br>
     <br>
     <div class="container">
