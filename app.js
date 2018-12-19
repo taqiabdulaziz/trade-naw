@@ -26,7 +26,6 @@ app.get('/chatbox', function (req, res) {
 //BACA SOCKET.IO
 io.on('connection', function (socket) {
     console.log(`user connected`);
-
     socket.on('chat message', function (msg) {
         io.emit('chat message', `Taqi: ${msg}`);
         console.log(msg);
@@ -35,7 +34,7 @@ io.on('connection', function (socket) {
 
 //SEEDING DATA
 setInterval(() => {
-    const curr = [`USD`, `HKD`, `EUR`]
+    const curr = [`USD`, `HKD`, `EUR`, `SGD`]
     curr.forEach(element => {
         rp(`https://www.alphavantage.co/query?function=FX_INTRADAY&from_symbol=${element}&to_symbol=IDR&interval=5min&apikey=NYQXR70QLDSCRYEI`)
             .then((result) => {
