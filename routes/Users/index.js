@@ -10,7 +10,7 @@ Routes.get('/',checkLogin, (req, res) =>{
         id:req.session.user.id
     }})
     .then((user) => {
-        res.send(user)
+        res.redirect("profile.ejs", {user})
      
     })
     .catch((err) => {

@@ -1,6 +1,7 @@
 'use strict';
 const Sequelize = require('sequelize')
 const encryptPass = require('../helpers/encyptPassword')
+const {Currency} = require('../models')
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     firstName: DataTypes.STRING,
@@ -48,13 +49,26 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.TransactionB2B)
     // associations can be defined here
   };
+  user.prototype.getFullName = function () {
+    return this.firstName + " " + this.lastName
+  }
 
   User.beforeCreate((value) => {
-    // console.log(value)
     let pass = encryptPass(value.password)
     value.password = pass
-    // console.log(pass)
-    // value.password = 
   }) 
+
+  User.afterDestroy((value) => {
+    Currency.destroy({where: {
+      UserId : value.id
+    }})
+    .then((data) => {
+
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+
+  })
   return User;
 };
