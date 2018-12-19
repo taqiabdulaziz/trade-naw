@@ -25,7 +25,8 @@ Routes.post('/', (req,res) => {
                     id: data.id,
                     email: data.email,
                     role: data.role
-                } // res.send(req.session)
+                } 
+                // console.log(req.session)
             res.redirect('/')
             } else {
                 throw new Error('wrong password')

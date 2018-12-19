@@ -2,6 +2,7 @@ const rp = require(`request-promise`)
 const session = require("express-session")
 var express = require('express');
 var app = express()
+
 var server = require('http').Server(app);
 const Model = require(`./models`)
 const Router = require('./routes')
@@ -10,12 +11,12 @@ var io = require('socket.io')(server);
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }))
+
 app.use(session({
     secret: 'keyboard cat',
-    resave: true,
-    saveUninitialized: true,
-    cookie: { secure: true }
-}))
+    resave: false,
+  }))
+
 app.use("/", Router)
 server.listen(3000)
 
