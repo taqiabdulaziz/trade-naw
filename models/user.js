@@ -1,4 +1,6 @@
 'use strict';
+const Sequelize = require('sequelize')
+const encryptPass = require('../helpers/encyptPassword')
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     firstName: DataTypes.STRING,
@@ -35,12 +37,24 @@ module.exports = (sequelize, DataTypes) => {
     gender: DataTypes.STRING,
     phone: DataTypes.STRING,
     address: DataTypes.STRING,
-    role: DataTypes.STRING
+    role: {
+      type:DataTypes.STRING,
+      defaultValue: "customer"
+    },
+    password: DataTypes.STRING
   }, {});
   User.associate = function(models) {
     User.belongsToMany(models.Currency, {through: models.TransactionB2B})
     User.hasMany(models.TransactionB2B)
     // associations can be defined here
   };
+
+  User.beforeCreate((value) => {
+    // console.log(value)
+    let pass = encryptPass(value.password)
+    value.password = pass
+    // console.log(pass)
+    // value.password = 
+  }) 
   return User;
 };
