@@ -10,7 +10,6 @@ Routes.get('/', (req, res) => {
 
 Routes.use('/register', registerRoutes)
 Routes.use('/login', loginRoutes)
-
 Routes.use('/user', userRoutes)
 
 

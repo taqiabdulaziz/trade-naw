@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%-include('../partials/header.ejs')%>
+    <title>Document</title>
+
+</head>
+
+<body>
+    <%-include('../partials/navbar.ejs')%>
+    <br>
+    <br>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Currency</th>
+                    <th scope="col">Buy Price</th>
+                    <th scope="col">Selling Price</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%data.forEach((element) => { %>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td><%=element.name%></td>
+                        <td><%=element.buyPrice%></td>
+                        <td><%=element.sellPrice%></td>
+                        <td><%=new Date(element.updatedAt).toDateString()%></td>
+                        <td></td>
+                    </tr>
+                <%})%>
+            </tbody>
+        </table>
+    </div>
+    <%- include('../partials/footer.ejs') %>
+</body>
+
+</html>
