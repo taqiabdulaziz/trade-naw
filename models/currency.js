@@ -5,10 +5,10 @@ module.exports = (sequelize, DataTypes) => {
     buyPrice: DataTypes.INTEGER,
     sellPrice: DataTypes.INTEGER
   }, {});
-  Currency.associate = function(models) {
-    Currency.belongsToMany(models.User,{through: models.TransactionB2B})
-    Currency.hasMany(models.TransactionB2B)
-    // associations can be defined here
+  Currency.associate = function (models) {
+    // Currency.belongsToMany(models.User, { through: models.TransactionB2B })
+    // Currency.hasMany(models.TransactionB2B)
+    
   };
   return Currency;
 };

@@ -1,5 +1,5 @@
 const Routes = require('express').Router()
-const {User, TransactionB2B, Currency} = require('../../models')
+const {User, TransactionB2B, Currency, CurrencyHistory} = require('../../models')
 
 
 Routes.get("/", (req, res) => {
@@ -7,10 +7,7 @@ Routes.get("/", (req, res) => {
 })
 
 Routes.get("/buy", (req, res) => {
-    Currency.findAll({
-        attributes: ["buyPrice"],
-        group: ["name"]
-    }).then((result) => {
+    CurrencyHistory.findAll().then((result) => {
         res.send(result)
         // res.render(`./user/buy.ejs`, {
         //     data: result

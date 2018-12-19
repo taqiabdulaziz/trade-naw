@@ -45,7 +45,7 @@ setInterval(() => {
                     console.log(date.setHours(20))
                     console.log(`HARGA ${element}: ${valueSell}`);
                     console.log(`HARGA ${element}: ${valueBuy}`);
-                    Model.Currency.create({
+                    Model.CurrencyHistories.create({
                         name: element,
                         sellPrice: valueSell,
                         buyPrice: valueBuy,
