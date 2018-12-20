@@ -12,5 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     TransactionB2B.belongsTo(models.User)
     // associations can be defined here
   };
+
+  
+
   return TransactionB2B;
 };

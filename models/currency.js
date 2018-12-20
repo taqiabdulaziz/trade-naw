@@ -10,5 +10,20 @@ module.exports = (sequelize, DataTypes) => {
     // Currency.hasMany(models.TransactionB2B)
     
   };
+  Currency.getSymbol = function (data) {
+    const money = {
+      SGD: `S$`,
+      USD: `$`,
+      EUR: `€`,
+      HKD: `HK$`,
+      CHF: `CHF`
+    }
+    for (const key in money) {
+      if (data == key) {
+        return money[key]
+      }
+    }
+  }
+
   return Currency;
 };

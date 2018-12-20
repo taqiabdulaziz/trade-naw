@@ -11,12 +11,12 @@ Routes.get('/', checkLogin, (req, res) => {
         }
     })
         .then((user) => {
-            res.render("./user/profile.ejs", { user:user })
+            res.render("./user/profile.ejs", { user: user })
 
         })
         .catch((err) => {
             console.log(err);
-            
+
             res.redirect(`/login/?error= ${err}`)
         })
 })
