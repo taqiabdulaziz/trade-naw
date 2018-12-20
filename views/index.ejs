@@ -14,8 +14,18 @@
     <div class="chart-container container" style="position: relative; height:20vh; width:40vw">
         <canvas id="myChart"></canvas>
     </div>
+    <style>
+        .jumbotron {
+            height: 100vh;
+            background:cornflowerblue,
+        }
+
+        #myChart {
+            z-index: -2
+        }
+    </style>
     <script>
-        if (<%=x %> != undefined) {
+        if (<%= x %> != undefined) {
             var ctx = document.getElementById("myChart").getContext('2d');
             var list = <%- JSON.stringify(x) %>
                 console.log(typeof list);
@@ -47,6 +57,7 @@
                     }]
                 },
                 options: {
+               
                     scales: {
                         yAxes: [{
                             ticks: {

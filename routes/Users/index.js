@@ -3,6 +3,7 @@ const checkLogin = require('../../helpers/checkLogin')
 const checkrole = require('../../helpers/checkRole')
 const { User, TransactionB2B, Currency, Request ,CurrencyHistory} = require('../../models')
 const user = require(`../../helpers/checkLogin`)
+const moneyConvert = require(`../../helpers/moneyConvert`)
 
 Routes.get('/', checkLogin, (req, res) => {
     // res.send(req.session)
@@ -43,7 +44,8 @@ Routes.get("/buy", checkLogin, (req, res) => {
         
         res.render(`./user/buy.ejs`, {
             data: result,
-            user: req.session.user
+            user: req.session.user,
+            moneyConvert: moneyConvert
         })
     }).catch((err) => {
         res.send(err)
@@ -62,6 +64,44 @@ Routes.get("/buy/:currencyId", checkLogin, (req, res) => {
         .catch((err) => {
             res.redirect(`/buy?error=${err}`)
         })
+})
+
+Routes.get(`/sell`, checkLogin, (req, res) => {
+    TransactionB2B.findAll({
+        where: {
+            UserId: req.session.user.id
+        },
+        include: [{model: Currency}]
+    })
+        .then((result) => {
+            let expense = 0
+            result.forEach(element => {
+                expense += element.subTotal
+            });
+        res.render(`./user/sell.ejs`, {
+            data: result,
+            user: req.session.user,
+            moneyConvert: moneyConvert,
+            expense: expense
+        })
+        
+    }).catch((err) => {
+        
+    });
+})
+
+Routes.get(`/sell/:currencyId`, (req, res) => {
+    TransactionB2B.destroy({
+        where: {
+            CurrencyId: req.params.currencyId,
+            UserId: req.session.user.id
+        }
+    })
+    .then((result) => {
+        res.redirect(`/user/sell`)
+    }).catch((err) => {
+        res.send(err)
+    });
 })
 
 Routes.post("/buy/:currencyId", (req, res) => {
@@ -215,8 +255,6 @@ Routes.get('/request/:requestId', (req, res) => {
         })
 })
 
-
-
 Routes.get('/logout', (req, res) => {
     console.log(req.session.user.role, "==============")
     if (req.session.user.role === "admin") {
@@ -262,5 +300,6 @@ Routes.get("/unactive", (req, res) => {
             res.redirect(`/profile?error=${err}`)
         })
 })
+
 
 module.exports = Routes

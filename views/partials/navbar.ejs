@@ -16,13 +16,20 @@
       <li class="nav-item">
         <a class="nav-link" href="/user/buy">Buy</a>
       </li>
+      <li class="nav-item">
+          <a class="nav-link" href="/user/sell">Sell</a>
+        </li>
 
     </ul>
   </div>
+      
   <form class="form-inline my-2 my-lg-0" action="/" method="POST">
     <input name="name" class="form-control mr-sm-2" type="search" placeholder="USD, SGD, etc.." aria-label="Search">
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
   </form>
+
+  <a class="btn btn-primary" href="/user/logout" role="button">Logout</a>
+  
   <%} else {%>
   <a class="navbar-brand" href="/">Trade-naw</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
@@ -37,10 +44,14 @@
      
 
     </ul>
+    
   </div>
+  
   <form class="form-inline my-2 my-lg-0" action="/" method="POST">
     <input name="name" class="form-control mr-sm-2" type="search" placeholder="USD, SGD, etc.." aria-label="Search">
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    
   </form>
+  
   <%}%>
 </nav>

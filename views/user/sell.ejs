@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%-include('../partials/header.ejs')%>
+    <title>Document</title>
+
+</head>
+
+<body>
+    <%-include('../partials/navbar.ejs')%>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <h1>Your transaction</h1>
+        <br>
+        <button type="button" class="btn btn-primary">
+            Expense <span class="badge badge-light"><%=moneyConvert(expense)%></span>
+            <span class="sr-only">unread messages</span>
+        </button>
+        <br>
+        <br>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Currency</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">QTY Price</th>
+                    <th scope="col">Current Price</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%data.forEach((element, i) => { %>
+                <tr>
+                    <th scope="row">
+                        <%= i +1 %>
+                    </th>
+                    <td>
+                        <a href="/currency/<%=i+1%>">
+                            <%=element.Currency.name%></a>
+                    </td>
+                    <td>
+                        <%=element.amount%>
+                    </td>
+                    <td>
+                        
+                        <%=moneyConvert(element.qtyPrice)%>
+                    </td>
+                    <%if(element.qtyPrice < element.Currency.buyPrice) {%>
+                    <td>
+                        
+                        <a href="" class="text-danger"> <%=moneyConvert(element.Currency.buyPrice)%></a>
+                    </td>
+                    <%} else {%>
+                        <td>
+                        
+                                <a href="" class="text-success"> <%=moneyConvert(element.Currency.buyPrice)%></a>
+                            </td>
+                        <%}%>
+                    <td>
+                        <%=moneyConvert(element.subTotal)%>
+                    </td>
+                    <td>
+                        <%=element.updatedAt%>
+                    </td>
+
+                    <td> <a href="/user/sell/<%=element.CurrencyId%>/   " class="btn btn-primary">Sell</a></td>
+                </tr>
+                <%})%>
+            </tbody>
+        </table>
+    </div>
+    <%- include('../partials/footer.ejs') %>
+</body>
+
+</html>

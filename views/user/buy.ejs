@@ -13,6 +13,8 @@
     <br>
     <br>
     <div class="container">
+        <h1>Available Currencies</h1>
+        <br>
         <table class="table">
             <thead>
                 <tr>
@@ -32,10 +34,10 @@
                         <a href="/currency/<%=i+1%>"><%=element.name%></a>
                     </td>
                     <td>
-                        <%=element.buyPrice%>
+                        <%=moneyConvert(element.buyPrice)%>
                     </td>
                     <td>
-                        <%=element.sellPrice%>
+                        <%=moneyConvert(element.sellPrice)%>
                     </td>
                     <td>
                         <%=new Date(element.updatedAt).toDateString()%>
@@ -47,6 +49,12 @@
             </tbody>
         </table>
     </div>
+
+    <style>
+    
+    .continaer {
+            background:cornflowerblue
+        }</style>
     <%- include('../partials/footer.ejs') %>
 </body>
 
