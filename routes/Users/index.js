@@ -100,6 +100,9 @@ Routes.get('/request', checkLogin, checkrole, (req, res) => {
 
 Routes.get('/request/:requestId', (req, res) => {
     let insert = null
+    let price = null
+    let qty = null
+
     Request.findOne({ where: { id: req.params.requestId } })
         .then((request) => {
             request.status = "approved"
@@ -110,6 +113,8 @@ Routes.get('/request/:requestId', (req, res) => {
                 qtyPrice: request.qtyPrice,
                 subTotal: request.amount * request.qtyPrice
             }
+            price = request.amount
+            qty = request.qtyPrice
             return Request.update({
                 UserId: request.UserId,
                 CurrencyId: request.CurrencyId,
@@ -120,7 +125,7 @@ Routes.get('/request/:requestId', (req, res) => {
             // res.send(request)
         })
         .then((data) => {
-            //    console.log(insert)
+
             return TransactionB2B.create(insert)
         })
         .then(transaction => {
@@ -130,7 +135,33 @@ Routes.get('/request/:requestId', (req, res) => {
             })
         })
         .then((user) => {
-
+            console.log(`=================`);
+            console.log(qty, price);
+            
+            
+            User.update({
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                ktp: user.ktp,
+                email: user.email,
+                gender: user.gender,
+                address: user.address,
+                phone: user.phone,
+                password: user.password,
+                role: user.role,
+                balance: price * qty
+            }, {
+                    where: {
+                        id: user.id
+                    }
+                }).then((result) => {
+                    console.log(result);
+                    
+                }).catch((err) => {
+                    console.log(err);
+                    
+                });
             var nodemailer = require('nodemailer');
 
             var transporter = nodemailer.createTransport({

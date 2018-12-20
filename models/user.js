@@ -47,12 +47,15 @@ module.exports = (sequelize, DataTypes) => {
     status: {
       type: DataTypes.STRING,
       defaulValue: "active"
-    }
+    },
+    balance: DataTypes.INTEGER
   }, {});
   User.associate = function (models) {
     User.belongsToMany(models.Currency, { through: models.TransactionB2B })
     User.hasMany(models.TransactionB2B)
     User.hasMany(models.Request)
+    User.hasMany(models.transactionp2p, { foreignKey: `buyerId` })
+    User.hasMany(models.transactionp2p, {foreignKey: `sellerId`})
     // associations can be defined her
   };
   User.prototype.getFullName = function () {
