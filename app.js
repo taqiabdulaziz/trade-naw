@@ -13,7 +13,9 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }))
 
 app.use(session({
-    secret: 'keyboard cat'
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
 }))
 
 app.use("/", Router)
