@@ -17,6 +17,8 @@ Routes.post('/', (req,res) => {
     .then((data) =>{
         if (!data) {
             throw new Error("email not found")
+        } else if (data.status === "unactive") {
+            throw new Error('please contact our Admin to reactive your account')
         } else {
            let check =  bcrypt.compareSync(req.body.password, data.password);
             if (check) {

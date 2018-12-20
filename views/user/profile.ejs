@@ -51,28 +51,25 @@
                             </tr>
                             <tr>
                               <td>Transaction date:</td>
-                              <td>transaction createdAt</td>
+                              <td><%= data.createdAt %></td>
                             </tr>
                             <tr>
                               <td>Currency</td>
-                              <td>01/24/1988</td>
+                              <td><%=data.Currency.name %></td>
                             </tr>
-                         
-                               <tr>
-                                   <tr>
                               <td>Amount</td>
-                              <td>Female</td>
+                              <td> <%= data.amount %></td>
                             </tr>
                               <tr>
                               <td>Total</td>
-                              <td>Kathmandu,Nepal</td>
+                              <td><%= data.subTotal %></td>
                             </tr>
                            
                           </tbody>
                         </table>
                 <%  } %>
                     
-                    <a href="/user/delete/<%= user.id %>" class="btn btn-primary">Delete Account</a>
+                    <a href="/user/unactive" class="btn btn-primary">Unactive Account</a>
                     <a href="/user/edit/<%= user.id %>" class="btn btn-primary">Edit Profile</a>
                   </div>
                 </div>

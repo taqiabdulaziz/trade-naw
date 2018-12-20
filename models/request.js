@@ -26,7 +26,9 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Request.cleanRequest = function (params) {
-    
+   return Request.destroy({where: {
+     status: "approved"
+   }, individualHooks:true})
   }
   return Request;
 };

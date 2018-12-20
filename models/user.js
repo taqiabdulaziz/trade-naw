@@ -20,8 +20,9 @@ module.exports = (sequelize, DataTypes) => {
               }
             }
           })
-            .then((data) => {
+            .then(function (data) {
               if (data) {
+                console.log(data)
                 throw new Error('Email has been register')
               }
             })
@@ -42,7 +43,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: "customer"
     },
-    password: DataTypes.STRING
+    password: DataTypes.STRING, 
+    status: {
+      type: DataTypes.STRING,
+      defaulValue: "active"
+    }
   }, {});
   User.associate = function (models) {
     User.belongsToMany(models.Currency, { through: models.TransactionB2B })
@@ -59,19 +64,6 @@ module.exports = (sequelize, DataTypes) => {
     value.password = pass
   })
 
-  User.afterDestroy((value) => {
-    Currency.destroy({
-      where: {
-        UserId: value.id
-      }
-    , individualHooks:true}, )
-      .then((data) => {
-
-      })
-      .catch((err) => {
-        throw new Error(err)
-      })
-
-  })
+  
   return User;
 };
