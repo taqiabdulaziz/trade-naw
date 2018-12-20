@@ -11,6 +11,7 @@
     <%-include('../partials/navbar.ejs')%>
     <br>
     <br>
+    <br>
     <div class="container">
         <table class="table">
             <thead>
@@ -28,7 +29,7 @@
                  <tr>
                     <th scope="row"><%= i +1 %></th>
                     <td>
-                        <%=element.name%>
+                        <a href="/currency/<%=i+1%>"><%=element.name%></a>
                     </td>
                     <td>
                         <%=element.buyPrice%>

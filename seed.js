@@ -12,24 +12,26 @@
 
 //             APIKEY.forEach(element => {
 //                 setInterval(() => {
-//                     rp(`https://www.alphavantage.co/query?function=FX_INTRADAY&from_symbol=${curr[i]}&to_symbol=IDR&interval=5min&apikey=${element}`)
-//                         .then((result) => {
-//                             let data = JSON.parse(result)
-//                             let date = new Date(Object.keys(data[`Time Series FX (5min)`])[0])
-//                             let valueSell = Number(data[`Time Series FX (5min)`][Object.keys(data[`Time Series FX (5min)`])[0]]["4. close"])
-//                             let valueBuy = valueSell + valueSell * 2 / 100
-//                             console.log(date.setHours(20))
-//                             console.log(`HARGA ${curr[i]}: ${valueSell}`);
-//                             console.log(`HARGA ${curr[i]}: ${valueBuy}`);
-//                             Model.CurrencyHistory.create({
-//                                 name: curr[i],
-//                                 sellPrice: valueSell,
-//                                 buyPrice: valueBuy,
-//                                 createdAt: new Date(),
-//                                 updatedAt: date
-//                             }).then((result) => {
+const rp = require(`request-promise`)
+    
+                    rp(`https://www.alphavantage.co/query?function=FX_INTRADAY&from_symbol=${curr[i]}&to_symbol=IDR&interval=5min&apikey=${element}`)
+                        .then((result) => {
+                            let data = JSON.parse(result)
+                            let date = new Date(Object.keys(data[`Time Series FX (5min)`])[0])
+                            let valueSell = Number(data[`Time Series FX (5min)`][Object.keys(data[`Time Series FX (5min)`])[0]]["4. close"])
+                            let valueBuy = valueSell + valueSell * 2 / 100
+                            console.log(date.setHours(20))
+                            console.log(`HARGA ${curr[i]}: ${valueSell}`);
+                            console.log(`HARGA ${curr[i]}: ${valueBuy}`);
+                            Model.CurrencyHistory.create({
+                                name: curr[i],
+                                sellPrice: valueSell,
+                                buyPrice: valueBuy,
+                                createdAt: new Date(),
+                                updatedAt: date
+                            }).then((result) => {
 
-//                             }).catch((err) => {
+                            }).catch((err) => {
 //                                 console.log(err);
 
 //                             });

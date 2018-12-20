@@ -4,6 +4,7 @@ const Model = require(`../models`)
 const registerRoutes = require('./register')
 const loginRoutes = require('./login')
 const convertTime = require(`../helpers/convertTime`)
+const currencyRoutes = require(`../routes/currency`)
 
 Routes.use('/register', registerRoutes)
 Routes.use('/login', loginRoutes)
@@ -11,10 +12,13 @@ Routes.use('/login', loginRoutes)
 Routes.get('/', (req, res) => {
     res.render(`index.ejs`, {
         x: undefined,
-        y: undefined
+        y: undefined,
+        user: req.session.user
     })
+    console.log(req.session.user);
+    
+    
 })
-
 Routes.post(`/`, (req, res) => {
     Model.CurrencyHistory.findAll({
         where: {
@@ -33,7 +37,8 @@ Routes.post(`/`, (req, res) => {
             res.render('index.ejs', {
                 data: result,
                 x: data,
-                y: timeSet
+                y: timeSet,
+                user: req.session.user
             })
             // res.send(result)
         }).catch((err) => {
@@ -44,5 +49,6 @@ Routes.get('/session', (req, res) => {
     res.send(req.session)
 })
 Routes.use('/user', userRoutes)
+Routes.use(`/currency`, currencyRoutes)
 
 module.exports = Routes

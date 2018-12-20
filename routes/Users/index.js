@@ -1,7 +1,7 @@
 const Routes = require('express').Router()
 const checkLogin = require('../../helpers/checkLogin')
 const checkrole = require('../../helpers/checkRole')
-const { User, TransactionB2B, Currency, Request} = require('../../models')
+const { User, TransactionB2B, Currency, Request } = require('../../models')
 const user = require(`../../helpers/checkLogin`)
 
 Routes.get('/', checkLogin, (req, res) => {
@@ -11,7 +11,7 @@ Routes.get('/', checkLogin, (req, res) => {
             id: req.session.user.id
         },
         include: [{
-            model:TransactionB2B
+            model: TransactionB2B
         }]
     })
         .then((user) => {
@@ -25,30 +25,30 @@ Routes.get('/', checkLogin, (req, res) => {
         })
 })
 
-Routes.get("/buy",checkLogin, (req, res) => {
+Routes.get("/buy", checkLogin, (req, res) => {
     Currency.findAll().then((result) => {
         // res.send(result)
         res.render(`./user/buy.ejs`, {
             data: result,
-            
+            user: req.session.user
         })
     }).catch((err) => {
         res.send(err)
     });
 })
 
-Routes.get("/buy/:currencyId",checkLogin, (req, res) => {
+Routes.get("/buy/:currencyId", checkLogin, (req, res) => {
     Currency.findOne({
         where: {
-        id: req.params.currencyId
+            id: req.params.currencyId
         }
     })
-    .then((currency) => {
-        res.render("./user/buyform.ejs", {currency})
-    })
-    .catch((err) => {
-        res.redirect(`/buy?error=${err}`)
-    })
+        .then((currency) => {
+            res.render("./user/buyform.ejs", { currency, user: req.session.user })
+        })
+        .catch((err) => {
+            res.redirect(`/buy?error=${err}`)
+        })
 })
 
 Routes.post("/buy/:currencyId", (req, res) => {
@@ -56,7 +56,8 @@ Routes.post("/buy/:currencyId", (req, res) => {
         CurrencyId: req.params.currencyId,
         UserId: req.session.user.id,
         amount: req.body.amount,
-        qtyPrice:req.body.buyPrice
+        qtyPrice: req.body.buyPrice,
+        user: req.session.user
     }
     Request.create(insert)
         .then((data) => {
@@ -68,25 +69,25 @@ Routes.post("/buy/:currencyId", (req, res) => {
     // res.send(insert)
 })
 
-Routes.get('/request',checkLogin,checkrole, (req, res) => {
-   Request.findAll({
-       include:[{
-           model:Currency
-       },{model:User}]
-   })
-   .then(requests => {
-    //    res.send(requests)
-       res.render("request.ejs", {requests})
-   })
-   .catch(err => {
-       res.redirect(`/?error=${err}`)
+Routes.get('/request', checkLogin, checkrole, (req, res) => {
+    Request.findAll({
+        include: [{
+            model: Currency
+        }, { model: User }]
+    })
+        .then(requests => {
+            //    res.send(requests)
+            res.render("request.ejs", { requests, user: req.session.user })
+        })
+        .catch(err => {
+            res.redirect(`/?error=${err}`)
 
-   })
+        })
 })
 
 Routes.get('/request/:requestId', (req, res) => {
     let insert = null
-    Request.findOne({where:{id:req.params.requestId}})
+    Request.findOne({ where: { id: req.params.requestId } })
         .then((request) => {
             request.status = "approved"
             insert = {
@@ -102,37 +103,37 @@ Routes.get('/request/:requestId', (req, res) => {
                 amount: request.amount,
                 qtyPrice: request.qtyPrice,
                 status: "approved"
-            }, {where:{id:req.params.requestId}})
+            }, { where: { id: req.params.requestId } })
             // res.send(request)
         })
         .then((data) => {
-        //    console.log(insert)
-          return  TransactionB2B.create(insert)
+            //    console.log(insert)
+            return TransactionB2B.create(insert)
         })
         .then(transaction => {
-           return User.findOne({
-                where: {id: transaction.UserId},
-                include:[{model:TransactionB2B}]
+            return User.findOne({
+                where: { id: transaction.UserId },
+                include: [{ model: TransactionB2B }]
             })
         })
         .then((user) => {
-                // res.send(user)
-                var nodemailer = require('nodemailer');
+            // res.send(user)
+            var nodemailer = require('nodemailer');
 
             var transporter = nodemailer.createTransport({
-              service: 'gmail',
-              auth: {
-                user: 'gamecowo12345@gmail.com',
-                pass: 'gamecowo54321'
-              }
+                service: 'gmail',
+                auth: {
+                    user: 'gamecowo12345@gmail.com',
+                    pass: 'gamecowo54321'
+                }
             });
-            
+
             var mailOptions = {
-              from: 'gamecowo12345@gmail.com',
-              to: user.email,
-              subject: 'Invoice',
-              text: 
-              `======================= INVOICE ==================
+                from: 'gamecowo12345@gmail.com',
+                to: user.email,
+                subject: 'Invoice',
+                text:
+                    `======================= INVOICE ==================
                Name: ${user.getFullName()}
 
                Amount: ${user.TransactionB2Bs[0].amount}
@@ -154,17 +155,17 @@ Routes.get('/request/:requestId', (req, res) => {
                 contact us : Trade-Naw@company.com
                         `
             };
-            
-            transporter.sendMail(mailOptions, function(error, info){
-              if (error) {
-                console.log(error)
-            } else {
-                console.log(`email send : ${info.response}`) 
-            }
+
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error)
+                } else {
+                    console.log(`email send : ${info.response}`)
+                }
             });
-        res.redirect('/?info= success sent invoice')
+            res.redirect('/?info= success sent invoice')
         })
-     
+
         .catch((err) => {
             res.redirect(`/?error= ${err}`)
         })
@@ -172,7 +173,7 @@ Routes.get('/request/:requestId', (req, res) => {
 
 
 
-Routes.get('/logout',(req, res) => {
+Routes.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
             res.redirect(`/user?=error ${err}`)

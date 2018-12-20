@@ -6,7 +6,7 @@ Routes.get('/', (req, res) => {
     let info = req.query.info
     let err = req.query.error
     
-    res.render("login.ejs", {info, err})
+    res.render("login.ejs", {info, err,user: req.session.user})
 })
 
 Routes.post('/', (req,res) => {
@@ -24,7 +24,8 @@ Routes.post('/', (req,res) => {
                     id: data.id,
                     email: data.email,
                     role: data.role,
-                    name: data.firstName
+                    name: data.firstName,
+                    user: req.session.user
                 } 
                 // console.log(req.session)
             res.redirect('/')

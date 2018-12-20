@@ -21,7 +21,8 @@ server.listen(8080)
 
 app.get('/chatbox', checkLogin, function (req, res) {
     res.render(`chatbox.ejs`, {
-        name: req.session.user.name
+        name: req.session.user.name,
+        user: req.session.user
     })
     if (req.session.user.role == `admin`) {
         name = `Admin`
