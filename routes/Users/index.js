@@ -1,12 +1,11 @@
 const Routes = require('express').Router()
 const checkLogin = require('../../helpers/checkLogin')
 const { User, TransactionB2B, Currency, CurrencyHistory } = require('../../models')
-
-
+const user = require(`../../helpers/checkLogin`)
 
 Routes.get('/', checkLogin, (req, res) => {
     // res.send(req.session)
-    User.findAll({
+    User.findOne({
         where: {
             id: req.session.user.id
         }
@@ -22,14 +21,8 @@ Routes.get('/', checkLogin, (req, res) => {
         })
 })
 
-
-
 Routes.get("/buy", (req, res) => {
-    CurrencyHistory.findAll({
-        where: {
-            name: `HKD`
-        }
-    }).then((result) => {
+    Currency.findAll().then((result) => {
         // res.send(result)
         res.render(`./user/buy.ejs`, {
             data: result
@@ -49,7 +42,5 @@ Routes.get("/delete", (req, res) => {
             res.redirect(`/profile?error=${err}`)
         })
 })
-
-
 
 module.exports = Routes

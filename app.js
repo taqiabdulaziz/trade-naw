@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
-  }))
+}))
 
 app.use("/", Router)
 server.listen(3000)
@@ -54,9 +54,11 @@ setInterval(() => {
                     createdAt: new Date(),
                     updatedAt: date
                 }).then((result) => {
-
+                    console.log(result);
+                    
                 }).catch((err) => {
-
+                    console.log(err);
+                    
                 });
                 Model.Currency.findOne({
                     where: {
@@ -69,8 +71,10 @@ setInterval(() => {
                             buyPrice: valueBuy,
                             sellPrice: valueSell
                         }).then((result) => {
+                            console.log(result);
 
                         }).catch((err) => {
+                            console.log(err);
 
                         });
                     } else {
@@ -79,17 +83,20 @@ setInterval(() => {
                             sellPrice: valueSell
                         }, {
                                 where: {
-                                name: element
-                            }
-                        }).then((result) => {
-                            
-                        }).catch((err) => {
-                            
-                        });
+                                    name: element
+                                }
+                            }).then((result) => {
+                                console.log(result);
+
+                            }).catch((err) => {
+                                console.log(err);
+
+                            });
                     }
                     console.log(`ini resultttt`, result);
 
                 }).catch((err) => {
+                    console.log(err);
 
                 });
             }).catch((err) => {
