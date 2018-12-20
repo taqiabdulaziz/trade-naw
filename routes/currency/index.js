@@ -13,7 +13,7 @@ Routes.get(`/:id`, (req, res) => {
                 where: {
                     name: result.name
                 },
-                order: [[`updatedAt`, `DESC`]]
+                order: [[`updatedAt`, `ASC`]]
             })
         }).then((histories) => {
             
