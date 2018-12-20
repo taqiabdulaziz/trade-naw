@@ -37,9 +37,10 @@
                     <td>
                         <%=element.amount%>
                     </td>
+                    <h1><%= element.status %></h1>
                    <% if (element.status === "unapprove") { %>
                         <td> <a href="/user/request/<%= element.id %>" class="btn btn-primary">Approve</a></td>
-                   <% } else { %>
+                   <% } else if (element.status === "approve"){ %>
                         <td>approved</td>
                   <%  } %>
                 </tr>
