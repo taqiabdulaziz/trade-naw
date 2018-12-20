@@ -45,7 +45,7 @@ io.on('connection', function (socket) {
 
 setInterval(() => {
     console.clear()
-    const curr = [`KWD`, `BHD`, `OMR`, `GBP`, `CHF`, `AZN`]
+    const curr = [`USD`, `SGD`, `HKD`, `EUR`]
     const APIKEY = [
         `4HSDVQ3MX055QKU2`,
         `21SQ7KI8XII3ACSB`,
