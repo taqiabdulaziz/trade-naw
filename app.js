@@ -19,8 +19,7 @@ app.use(session({
 }))
 
 app.use("/", Router)
-const port = process.env.port || 3000
-server.listen(port)
+let port = process.env.PORT
 
 app.get('/chatbox', checkLogin, function (req, res) {
     res.render(`chatbox.ejs`, {
@@ -32,7 +31,7 @@ app.get('/chatbox', checkLogin, function (req, res) {
     } else {
         name = req.session.user.name
     }
-
+    
 });
 
 //BACA SOCKET.IO
@@ -43,6 +42,7 @@ io.on('connection', function (socket) {
         console.log(msg);
     });
 });
+server.listen(port)
 
 
 
