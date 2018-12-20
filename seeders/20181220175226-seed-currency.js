@@ -8,6 +8,7 @@ module.exports = {
 
       Example:
       */
+     let test
         return queryInterface.bulkInsert('Currencies',[
           {
               "id": 3,
