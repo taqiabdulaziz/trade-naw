@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
-  }))
+}))
 
 app.use("/", Router)
 server.listen(3000)

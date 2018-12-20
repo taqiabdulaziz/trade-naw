@@ -1,8 +1,8 @@
 const Routes = require('express').Router()
 const checkLogin = require('../../helpers/checkLogin')
-const { User, TransactionB2B, Currency, CurrencyHistory } = require('../../models')
-
-
+const checkrole = require('../../helpers/checkRole')
+const { User, TransactionB2B, Currency, Request} = require('../../models')
+const user = require(`../../helpers/checkLogin`)
 
 Routes.get('/', checkLogin, (req, res) => {
     // res.send(req.session)
@@ -25,23 +25,77 @@ Routes.get('/', checkLogin, (req, res) => {
         })
 })
 
-
-
-Routes.get("/buy", (req, res) => {
-    CurrencyHistory.findAll({
-        where: {
-            name: `HKD`
-        }
-    }).then((result) => {
+Routes.get("/buy",checkLogin, (req, res) => {
+    Currency.findAll().then((result) => {
         // res.send(result)
         res.render(`./user/buy.ejs`, {
-            data: result
+            data: result,
+            
         })
     }).catch((err) => {
         res.send(err)
     });
-
 })
+
+Routes.get("/buy/:currencyId",checkLogin, (req, res) => {
+    Currency.findOne({
+        where: {
+        id: req.params.currencyId
+        }
+    })
+    .then((currency) => {
+        res.render("./user/buyform.ejs", {currency})
+    })
+    .catch((err) => {
+        res.redirect(`/buy?error=${err}`)
+    })
+})
+
+Routes.post("/buy/:currencyId", (req, res) => {
+    let insert = {
+        CurrencyId: req.params.currencyId,
+        UserId: req.session.user.id,
+        amount: req.body.amount,
+        qtyPrice:req.body.buyPrice
+    }
+    Request.create(insert)
+        .then((data) => {
+            res.redirect('/user/buy?info= success buy')
+        })
+        .catch((err) => {
+            res.redirect(`/user/buy/${req.params.currencyId}?error= ${err}`)
+        })
+    // res.send(insert)
+})
+
+Routes.get('/request',checkLogin,checkrole, (req, res) => {
+
+   Request.findAll({
+       include:[{
+           model:Currency
+       },{model:User}]
+   })
+   .then(requests => {
+    //    res.send(requests)
+       res.render("request.ejs", {requests})
+   })
+   .catch(err => {
+       res.redirect(`/?error=${err}`)
+
+   })
+})
+
+Routes.get('/request/:requestId', (req, res) => {
+    Request.findOne({where:{id:req.params.requestId}})
+        .then((request) => {
+            res.send(request)
+        })
+        .catch((err) => {
+            res.redirect(`/?error= ${err}`)
+        })
+})
+
+
 
 Routes.get('/logout',(req, res) => {
     req.session.destroy((err) => {
