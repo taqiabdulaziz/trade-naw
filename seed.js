@@ -1,17 +1,17 @@
-/SEEDING DATA, NYESEL BUKA INI
-// setInterval(() => {
-//     console.clear()
-//     const curr = [`KWD`, `BHD`, `OMR`, `GBP`, `CHF`, `AZN`]
-//     const APIKEY = [
-//         `4HSDVQ3MX055QKU2`,
-//         `21SQ7KI8XII3ACSB`,
-//         `CEYMZTRGRDBVYYPQ`,
-//     ]
-//     for (let i = 0; i < curr.length; i++) {
-//         setTimeout(() => {
 
-//             APIKEY.forEach(element => {
-//                 setInterval(() => {
+setInterval(() => {
+    console.clear()
+    const curr = [`KWD`, `BHD`, `OMR`, `GBP`, `CHF`, `AZN`]
+    const APIKEY = [
+        `4HSDVQ3MX055QKU2`,
+        `21SQ7KI8XII3ACSB`,
+        `CEYMZTRGRDBVYYPQ`,
+    ]
+    for (let i = 0; i < curr.length; i++) {
+        setTimeout(() => {
+
+            APIKEY.forEach(element => {
+                setInterval(() => {
 const rp = require(`request-promise`)
     
                     rp(`https://www.alphavantage.co/query?function=FX_INTRADAY&from_symbol=${curr[i]}&to_symbol=IDR&interval=5min&apikey=${element}`)
@@ -32,55 +32,55 @@ const rp = require(`request-promise`)
                             }).then((result) => {
 
                             }).catch((err) => {
-//                                 console.log(err);
+                                console.log(err);
 
-//                             });
-//                             Model.Currency.findOne({
-//                                 where: {
-//                                     name: curr[i]
-//                                 }
-//                             }).then((result) => {
-//                                 if (!result) {
-//                                     Model.Currency.create({
-//                                         name: curr[i],
-//                                         buyPrice: valueBuy,
-//                                         sellPrice: valueSell
-//                                     }).then((result) => {
-//                                         console.log(result);
+                            });
+                            Model.Currency.findOne({
+                                where: {
+                                    name: curr[i]
+                                }
+                            }).then((result) => {
+                                if (!result) {
+                                    Model.Currency.create({
+                                        name: curr[i],
+                                        buyPrice: valueBuy,
+                                        sellPrice: valueSell
+                                    }).then((result) => {
+                                        console.log(result);
 
-//                                     }).catch((err) => {
-//                                         console.log(err);
+                                    }).catch((err) => {
+                                        console.log(err);
 
-//                                     });
-//                                 } else {
-//                                     Model.Currency.update({
-//                                         buyPrice: valueBuy,
-//                                         sellPrice: valueSell
-//                                     }, {
-//                                             where: {
-//                                                 name: curr[i],
-//                                             }
-//                                         }).then((result) => {
-//                                             console.log(result);
+                                    });
+                                } else {
+                                    Model.Currency.update({
+                                        buyPrice: valueBuy,
+                                        sellPrice: valueSell
+                                    }, {
+                                            where: {
+                                                name: curr[i],
+                                            }
+                                        }).then((result) => {
+                                            console.log(result);
 
-//                                         }).catch((err) => {
-//                                             console.log(err);
+                                        }).catch((err) => {
+                                            console.log(err);
 
-//                                         });
-//                                 }
-//                                 console.log(`ini resultttt`, result);
+                                        });
+                                }
+                                console.log(`ini resultttt`, result);
 
-//                             }).catch((err) => {
-//                                 console.log(err);
+                            }).catch((err) => {
+                                console.log(err);
 
-//                             });
-//                         }).catch((err) => {
-//                             console.log(err);
-//                         });
-//                 });
-//             }, 20000);
-//         }, 30000);
-//     }
-// }, 30000);
+                            });
+                        }).catch((err) => {
+                            console.log(err);
+                        });
+                });
+            }, 20000);
+        }, 30000);
+    }
+}, 30000);
 
 
