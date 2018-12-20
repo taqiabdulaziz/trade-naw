@@ -17,22 +17,23 @@ Routes.get('/', checkLogin, (req, res) => {
     })
         .then((person) => {
             user = person
-            return TransactionB2B.findAll({where: {
-                UserId: user.id
-            }, include: [{
-                model: Currency
-            }]
+            return TransactionB2B.findAll({
+                where: {
+                    UserId: user.id
+                }, include: [{
+                    model: Currency
+                }]
             })
         })
         .then(trans => {
             // res.send(data)
             console.log(user)
-            let data = trans[trans.length -1]
+            let data = trans[trans.length - 1]
             res.render("./user/profile.ejs", { user, data })
         })
         .catch((err) => {
             console.log(err);
-            
+
             res.redirect(`/login/?error= ${err}`)
         })
 })
@@ -130,7 +131,7 @@ Routes.get('/request/:requestId', (req, res) => {
         })
         .then((user) => {
 
-                var nodemailer = require('nodemailer');
+            var nodemailer = require('nodemailer');
 
             var transporter = nodemailer.createTransport({
                 service: 'gmail',
@@ -185,7 +186,7 @@ Routes.get('/request/:requestId', (req, res) => {
 
 
 
-Routes.get('/logout',(req, res) => {
+Routes.get('/logout', (req, res) => {
     console.log(req.session.user.role, "==============")
     if (req.session.user.role === "admin") {
         Request.cleanRequest()
@@ -196,17 +197,17 @@ Routes.get('/logout',(req, res) => {
                 console.log(err)
             })
     }
-        req.session.destroy((err) => {
-            if (err) {
-                res.redirect(`/user?=error ${err}`)
-            } else {
-                res.redirect('/login?info= success logout')
-            }
-        })
+    req.session.destroy((err) => {
+        if (err) {
+            res.redirect(`/user?=error ${err}`)
+        } else {
+            res.redirect('/login?info= success logout')
+        }
+    })
 })
 
 Routes.get("/unactive", (req, res) => {
-    User.findOne({where: {id :req.session.user.id}})
+    User.findOne({ where: { id: req.session.user.id } })
         .then(user => {
             let id = user.id
             let insert = {
@@ -215,13 +216,13 @@ Routes.get("/unactive", (req, res) => {
                 lastName: user.lastName,
                 gender: user.gender,
                 address: user.address,
-                phone:user.phone,
+                phone: user.phone,
                 email: user.email,
                 ktp: user.ktp,
                 password: user.password,
                 status: "unactive"
             }
-            return User.update(insert, {where:{id}})
+            return User.update(insert, { where: { id } })
         })
         .then((update) => {
             res.redirect('/login')
@@ -230,9 +231,5 @@ Routes.get("/unactive", (req, res) => {
             res.redirect(`/profile?error=${err}`)
         })
 })
-
-
-
-
 
 module.exports = Routes
