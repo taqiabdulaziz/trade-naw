@@ -17,7 +17,8 @@ app.use(session({
 }))
 
 app.use("/", Router)
-server.listen(8080)
+const port = process.env.port || 3000
+server.listen(port)
 
 app.get('/chatbox', checkLogin, function (req, res) {
     res.render(`chatbox.ejs`, {
