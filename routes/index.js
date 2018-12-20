@@ -20,13 +20,12 @@ Routes.post(`/`, (req, res) => {
         where: {
             name: req.body.name
         },
-        order: [[`updatedAt`, `DESC`]],
-        offset: 1
+        order: [[`updatedAt`, `DESC`]]
     }).then((result) => {
             let data = []
             let timeSet = []
-            for (let i = 0; i < result.length; i++) {
-                if (data.length <= 10) {
+            for (let i = 0; i < result.length; i+=5) {
+                if (data.length <= 15) {
                     data.push(result[i].buyPrice)
                     timeSet.push(convertTime(result[i].updatedAt))
                 }

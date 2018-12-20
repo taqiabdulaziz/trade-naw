@@ -20,12 +20,13 @@
                     <th scope="col">Buy Price</th>
                     <th scope="col">Selling Price</th>
                     <th scope="col">Date</th>
+                    <th scope="col">Buy</th>
                 </tr>
             </thead>
             <tbody>
-                <%data.forEach((element) => { %>
-                <tr>
-                    <th scope="row">1</th>
+                <%data.forEach((element, i) => { %>
+                 <tr>
+                    <th scope="row"><%= i +1 %></th>
                     <td>
                         <%=element.name%>
                     </td>
@@ -39,8 +40,9 @@
                         <%=new Date(element.updatedAt).toDateString()%>
                     </td>
 
+                    <td> <a href="/user/buy/<%= element.id %>" class="btn btn-primary">Buy</a></td>
                 </tr>
-                <%})%>
+                    <%})%>
             </tbody>
         </table>
     </div>

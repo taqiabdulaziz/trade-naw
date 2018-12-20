@@ -19,12 +19,12 @@ Routes.post('/', (req,res) => {
             throw new Error("email not found")
         } else {
            let check =  bcrypt.compareSync(req.body.password, data.password);
-        //    console.log(check)
             if (check) {
                 req.session.user = {
                     id: data.id,
                     email: data.email,
-                    role: data.role
+                    role: data.role,
+                    name: data.firstName
                 } 
                 // console.log(req.session)
             res.redirect('/')
