@@ -3,7 +3,7 @@ const {User} = require('../../models')
 
 
 Routes.get('/', (req, res) => {
-    res.render('register.ejs')
+    res.render('register.ejs',{user: req.params.user})
 })
 
 Routes.post('/', (req, res) => {

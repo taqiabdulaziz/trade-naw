@@ -1,7 +1,7 @@
 const Routes = require('express').Router()
 const checkLogin = require('../../helpers/checkLogin')
 const checkrole = require('../../helpers/checkRole')
-const { User, TransactionB2B, Currency, Request } = require('../../models')
+const { User, TransactionB2B, Currency, Request ,CurrencyHistory} = require('../../models')
 const user = require(`../../helpers/checkLogin`)
 
 Routes.get('/', checkLogin, (req, res) => {
@@ -40,7 +40,7 @@ Routes.get('/', checkLogin, (req, res) => {
 
 Routes.get("/buy", checkLogin, (req, res) => {
     Currency.findAll().then((result) => {
-        // res.send(result)
+        
         res.render(`./user/buy.ejs`, {
             data: result,
             user: req.session.user
