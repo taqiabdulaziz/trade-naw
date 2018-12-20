@@ -63,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
       where: {
         UserId: value.id
       }
-    })
+    , individualHooks:true}, )
       .then((data) => {
 
       })

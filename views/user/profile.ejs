@@ -6,9 +6,81 @@
 </head>
 <body>
     <%- include('../partials/navbar.ejs') %>
-<h2>name: <%= user.getFullname() %></h2>
-<h2>gender: <%= user.gender %></h2> 
-<h2>email: <%= user.email %></h2>
+
+    <div class="container">
+        <div class="row">
+        <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
+          <A href="/user/logout" >Logout</A>
+         <br>
+         <br>
+  <p class=" text-info" style="float: left"><%= new Date() %> </p>
+        </div>
+          <div style="background-color: paleturquoise " class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+     
+     
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <h3 class="panel-title" style="">Your Profile</h3>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png" class="img-circle img-responsive"> </div>
+                  
+                <div class="col-xs-10 col-sm-10 hidden-md hidden-lg"> <br>
+                    <dl>
+                      <dt>Name:</dt>
+                      <dd> <%= user.getFullName() %></dd>
+                      <dt>Gender:</dt>
+                      <dd><%= user.gender %></dd>
+                      <dt>Email:</dt>
+                      <dd><%= user.email %></dd>
+                      <dt>Phone:</dt>
+                      <dd><%= user.phone %></dd>
+                      <dt>Address:</dt>
+                      <dd><%= user.address %></dd>
+                    </dl>
+                  </div>
+                <%  if (user.TransactionB2Bs.length !== 0) { %>
+                      <h3 style="background-color: whitesmoke; color: black ; width: 50%"> Last Transaction</h3>
+                      <div class=" col-md-9 col-lg-9 "> 
+                        <table class="table table-user-information">
+                          <tbody>
+                            <tr>
+                              <td>Transacton code: </td>
+                              <td>generate dr insatance method</td>
+                            </tr>
+                            <tr>
+                              <td>Transaction date:</td>
+                              <td>transaction createdAt</td>
+                            </tr>
+                            <tr>
+                              <td>Currency</td>
+                              <td>01/24/1988</td>
+                            </tr>
+                         
+                               <tr>
+                                   <tr>
+                              <td>Amount</td>
+                              <td>Female</td>
+                            </tr>
+                              <tr>
+                              <td>Total</td>
+                              <td>Kathmandu,Nepal</td>
+                            </tr>
+                           
+                          </tbody>
+                        </table>
+                <%  } %>
+                    
+                    <a href="/user/delete/<%= user.id %>" class="btn btn-primary">Delete Account</a>
+                    <a href="/user/edit/<%= user.id %>" class="btn btn-primary">Edit Profile</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
 <br>

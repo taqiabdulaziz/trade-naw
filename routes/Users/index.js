@@ -6,10 +6,13 @@ const { User, TransactionB2B, Currency, CurrencyHistory } = require('../../model
 
 Routes.get('/', checkLogin, (req, res) => {
     // res.send(req.session)
-    User.findAll({
+    User.findOne({
         where: {
             id: req.session.user.id
-        }
+        },
+        include: [{
+            model:TransactionB2B
+        }]
     })
         .then((user) => {
             res.render("./user/profile.ejs", { user:user })
@@ -40,6 +43,16 @@ Routes.get("/buy", (req, res) => {
 
 })
 
+Routes.get('/logout',(req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            res.redirect(`/user?=error ${err}`)
+        } else {
+            res.redirect('/login?info= success logout')
+        }
+    })
+})
+
 Routes.get("/delete", (req, res) => {
     User.destroy({ where: { id: req.session.user.id } })
         .then((data) => {
@@ -48,6 +61,33 @@ Routes.get("/delete", (req, res) => {
         .catch((err) => {
             res.redirect(`/profile?error=${err}`)
         })
+})
+
+Routes.post("/email/:userId", (req, res) => {
+    var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'gamecowo12345@gmail.com',
+    pass: 'gamecowo54321'
+  }
+});
+
+var mailOptions = {
+  from: 'gamecowo12345@gmail.com',
+  to: 'myfriend@yahoo.com',
+  subject: 'Ivoice',
+  text: 'That was easy!'
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
 })
 
 
