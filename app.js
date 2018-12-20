@@ -76,7 +76,7 @@ setInterval(() => {
                             }).then((result) => {
 
                             }).catch((err) => {
-                                console.log(err);
+                                
 
                             });
                             Model.Currency.findOne({
@@ -90,10 +90,10 @@ setInterval(() => {
                                         buyPrice: valueBuy,
                                         sellPrice: valueSell
                                     }).then((result) => {
-                                        console.log(result);
+                                        
 
                                     }).catch((err) => {
-                                        console.log(err);
+                                        
 
                                     });
                                 } else {
@@ -105,21 +105,20 @@ setInterval(() => {
                                                 name: curr[i],
                                             }
                                         }).then((result) => {
-                                            console.log(result);
+                                            
 
                                         }).catch((err) => {
-                                            console.log(err);
+                                            
 
                                         });
                                 }
-                                console.log(`ini resultttt`, result);
+                                
 
                             }).catch((err) => {
-                                console.log(err);
-
+                                
                             });
                         }).catch((err) => {
-                            console.log(err);
+                            
                         });
                 });
             }, 20000);
