@@ -14,10 +14,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "postgres",
-    "password": "postgres",
-    "database": "trade-naw-zia",
-    "host": "127.0.0.1",
+    "username": "pilcyfbklrkiul",
+    "password": "a20e6db1bfd23ba6e36dbb86a29f1fb53b0c29a61f700ecfda817d62f48d1226",
+    "database": "dd293scq65ok2k",
+    "host": "ec2-107-20-237-78.compute-1.amazonaws.com",
     "dialect": "postgres"
   }
 }
